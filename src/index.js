@@ -1,8 +1,13 @@
 import "./styles.css";
+// import Model from "./model";
+// import View from "./view";
+// import Controller from "./controller";
 
-(() => {
-  console.log("Hello world!");
-  return "Hello world!";
-})();
+// const app = new Controller({
+//   model: new Model(),
+//   view: new View({ rootSelector: "#root" }),
+// });
 
-document.querySelector("#root").className = "h-screen w-screen bg-black";
+// (async () => {
+//   await app.start();
+// })();
