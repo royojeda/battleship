@@ -1,10 +1,10 @@
 export default class Gameboard {
   #squares;
 
-  constructor({ width = 10, height = 10 } = {}) {
-    this.#squares = new Array(width)
-      .fill(null)
-      .map(() => new Array(height).fill(null));
+  constructor({
+    squares = new Array(10).fill(null).map(() => new Array(10).fill(null)),
+  } = {}) {
+    this.#squares = squares;
   }
 
   placeShip({ ship, location, orientation }) {
