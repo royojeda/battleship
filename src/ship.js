@@ -3,7 +3,7 @@ export default class Ship {
 
   #hits;
 
-  constructor({ length, hits }) {
+  constructor({ length, hits = 0 }) {
     this.#length = length;
     this.#hits = hits;
   }
@@ -14,5 +14,9 @@ export default class Ship {
 
   hit() {
     this.#hits += 1;
+  }
+
+  get length() {
+    return this.#length;
   }
 }
