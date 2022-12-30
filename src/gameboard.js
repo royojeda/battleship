@@ -47,4 +47,12 @@ export default class Gameboard {
   get squares() {
     return this.#squares;
   }
+
+  receiveAttack({ coordinates }) {
+    if (this.#squares[coordinates[0]][coordinates[1]] !== null) {
+      this.#squares[coordinates[0]][coordinates[1]].hit();
+      return true;
+    }
+    return false;
+  }
 }
