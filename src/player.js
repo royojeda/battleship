@@ -15,4 +15,9 @@ export default class Player {
   isDefeated() {
     return this.#ships.every((ship) => ship.isSunk());
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  chooseCoordinates() {
+    throw new Error("Not implemented!");
+  }
 }
