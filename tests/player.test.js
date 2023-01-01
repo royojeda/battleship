@@ -37,3 +37,16 @@ describe("isDefeated()", () => {
     expect(player.isDefeated()).toBe(false);
   });
 });
+
+describe("receiveAttack()", () => {
+  test("", () => {
+    Gameboard.mockImplementation(() => ({ receiveAttack: jest.fn() }));
+    const board = new Gameboard();
+    const ships = [new Ship(), new Ship()];
+    const player = new Player({ board, ships });
+
+    player.receiveAttack([5, 9]);
+
+    expect(board.receiveAttack).toHaveBeenCalledWith([5, 9]);
+  });
+});
