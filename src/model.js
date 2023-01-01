@@ -16,4 +16,8 @@ export default class Model {
   get targetPlayer() {
     return this.#players[1];
   }
+
+  isGameOver() {
+    return this.attackingPlayer.isDefeated();
+  }
 }

@@ -36,3 +36,27 @@ describe("turn()", () => {
     expect(playerTwo.receiveAttack).toHaveBeenCalledWith([1, 5]);
   });
 });
+
+describe("isGameOver()", () => {
+  test("returns false if the attacking player is not defeated", () => {
+    ComputerPlayer.mockImplementation(() => ({ isDefeated: () => false }));
+    const playerOne = new ComputerPlayer();
+    ComputerPlayer.mockImplementation(() => ({ isDefeated: () => false }));
+    const playerTwo = new ComputerPlayer();
+    const players = [playerOne, playerTwo];
+    const game = new Model({ players });
+
+    expect(game.isGameOver()).toBe(false);
+  });
+
+  test("returns true if the attacking player is defeated", () => {
+    ComputerPlayer.mockImplementation(() => ({ isDefeated: () => true }));
+    const playerOne = new ComputerPlayer();
+    ComputerPlayer.mockImplementation(() => ({ isDefeated: () => false }));
+    const playerTwo = new ComputerPlayer();
+    const players = [playerOne, playerTwo];
+    const game = new Model({ players });
+
+    expect(game.isGameOver()).toBe(true);
+  });
+});
