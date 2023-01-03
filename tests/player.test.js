@@ -1,8 +1,8 @@
-import Gameboard from "../src/gameboard";
+import Board from "../src/board";
 import Player from "../src/player";
 import Ship from "../src/ship";
 
-jest.mock("../src/gameboard");
+jest.mock("../src/board");
 jest.mock("../src/ship");
 
 describe("isDefeated()", () => {
@@ -13,7 +13,7 @@ describe("isDefeated()", () => {
     const shipOne = new Ship();
     const shipTwo = new Ship();
     const player = new Player({
-      board: new Gameboard(),
+      board: new Board(),
       ships: [shipOne, shipTwo],
     });
 
@@ -30,7 +30,7 @@ describe("isDefeated()", () => {
     }));
     const shipTwo = new Ship();
     const player = new Player({
-      board: new Gameboard(),
+      board: new Board(),
       ships: [shipOne, shipTwo],
     });
 
@@ -39,14 +39,25 @@ describe("isDefeated()", () => {
 });
 
 describe("receiveAttack()", () => {
-  test("", () => {
-    Gameboard.mockImplementation(() => ({ receiveAttack: jest.fn() }));
-    const board = new Gameboard();
+  test("sends receiveAttack() to board with the given set of coordinates", () => {
+    Board.mockImplementation(() => ({ receiveAttack: jest.fn() }));
+    const board = new Board();
     const ships = [new Ship(), new Ship()];
     const player = new Player({ board, ships });
 
-    player.receiveAttack([5, 9]);
+    player.receiveAttack({ coordinates: [5, 9] });
 
-    expect(board.receiveAttack).toHaveBeenCalledWith([5, 9]);
+    expect(board.receiveAttack).toHaveBeenCalledWith({ coordinates: [5, 9] });
+  });
+
+  test("sends receiveAttack() to board with another given set of coordinates", () => {
+    Board.mockImplementation(() => ({ receiveAttack: jest.fn() }));
+    const board = new Board();
+    const ships = [new Ship(), new Ship()];
+    const player = new Player({ board, ships });
+
+    player.receiveAttack({ coordinates: [9, 0] });
+
+    expect(board.receiveAttack).toHaveBeenCalledWith({ coordinates: [9, 0] });
   });
 });

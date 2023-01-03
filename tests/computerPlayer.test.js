@@ -1,8 +1,8 @@
 import ComputerPlayer from "../src/computerPlayer";
-import Gameboard from "../src/gameboard";
+import Gameboard from "../src/board";
 import Ship from "../src/ship";
 
-jest.mock("../src/gameboard");
+jest.mock("../src/board");
 jest.mock("../src/ship");
 
 describe("chooseCoordinates()", () => {

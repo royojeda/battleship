@@ -21,7 +21,7 @@ export default class Player {
     throw new Error("Not implemented!");
   }
 
-  receiveAttack(coordinates) {
-    this.#board.receiveAttack(coordinates);
+  receiveAttack({ coordinates }) {
+    this.#board.receiveAttack({ coordinates });
   }
 }
