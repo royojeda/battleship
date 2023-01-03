@@ -63,4 +63,16 @@ export default class Board {
     this.#squares[coordinates[0]][coordinates[1]].hit();
     return true;
   }
+
+  reportAttackResult() {
+    const previousAttack =
+      this.#receivedAttacks[this.#receivedAttacks.length - 1];
+    if (this.#squares[previousAttack[0]][previousAttack[1]] !== null) {
+      if (this.#squares[previousAttack[0]][previousAttack[1]].isSunk()) {
+        return "sunk";
+      }
+      return "hit";
+    }
+    return "miss";
+  }
 }

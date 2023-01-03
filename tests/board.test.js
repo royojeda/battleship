@@ -236,3 +236,72 @@ describe("receiveAttack()", () => {
     });
   });
 });
+
+describe("reportAttackResult()", () => {
+  test("returns 'miss' when there isn't a ship on the previous attack's target coordinates", () => {
+    const ship = new Ship();
+    const board = new Board({
+      squares: [
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, ship, null, null, null, null, null, null],
+        [null, null, null, ship, null, null, null, null, null, null],
+        [null, null, null, ship, null, null, null, null, null, null],
+        [null, null, null, ship, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+      ],
+      receivedAttacks: [[1, 1]],
+    });
+
+    expect(board.reportAttackResult()).toBe("miss");
+  });
+
+  describe("when there is a ship on the previous attack's target coordinates", () => {
+    test("returns 'hit' if the ship is not sunk", () => {
+      Ship.mockImplementation(() => ({ isSunk: () => false }));
+      const ship = new Ship();
+      const board = new Board({
+        squares: [
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+        ],
+        receivedAttacks: [[6, 3]],
+      });
+
+      expect(board.reportAttackResult()).toBe("hit");
+    });
+
+    test("returns 'sunk' if the ship is sunk", () => {
+      Ship.mockImplementation(() => ({ isSunk: () => true }));
+      const ship = new Ship();
+      const board = new Board({
+        squares: [
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+        ],
+        receivedAttacks: [[6, 3]],
+      });
+
+      expect(board.reportAttackResult()).toBe("sunk");
+    });
+  });
+});
