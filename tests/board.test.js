@@ -1,11 +1,11 @@
-import Gameboard from "../src/gameboard";
+import Board from "../src/board";
 import Ship from "../src/ship";
 
 jest.mock("../src/ship");
 
 describe("placeShip()", () => {
   test("places a ship at the correct squares on the board horizontally", () => {
-    const board = new Gameboard();
+    const board = new Board();
     Ship.mockImplementation(() => ({
       length: 2,
     }));
@@ -32,7 +32,7 @@ describe("placeShip()", () => {
   });
 
   test("places another ship with a different length at the correct squares on the board vertically", () => {
-    const board = new Gameboard();
+    const board = new Board();
     Ship.mockImplementation(() => ({
       length: 3,
     }));
@@ -60,7 +60,7 @@ describe("placeShip()", () => {
 
   test("doesn't place a new ship if it will overlap an existing ship", () => {
     const shipOne = new Ship();
-    const board = new Gameboard({
+    const board = new Board({
       squares: [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -100,7 +100,7 @@ describe("placeShip()", () => {
   });
 
   test("doesn't place a new ship if it will exceed the board boundaries horizontally", () => {
-    const board = new Gameboard();
+    const board = new Board();
     Ship.mockImplementation(() => ({
       length: 5,
     }));
@@ -127,7 +127,7 @@ describe("placeShip()", () => {
   });
 
   test("doesn't place a new ship if it will exceed the board boundaries vertically", () => {
-    const board = new Gameboard();
+    const board = new Board();
     Ship.mockImplementation(() => ({
       length: 2,
     }));
@@ -158,7 +158,7 @@ describe("receiveAttack()", () => {
   test("sends hit() to the ship at the target square and returns true", () => {
     Ship.mockImplementation(() => ({ hit: jest.fn() }));
     const ship = new Ship();
-    const board = new Gameboard({
+    const board = new Board({
       squares: [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -181,7 +181,7 @@ describe("receiveAttack()", () => {
   test("sends hit() to the ship at another target square and returns true", () => {
     Ship.mockImplementation(() => ({ hit: jest.fn() }));
     const ship = new Ship();
-    const board = new Gameboard({
+    const board = new Board({
       squares: [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, ship, ship, null, null, null],
@@ -204,7 +204,7 @@ describe("receiveAttack()", () => {
   test("doesn't send hit() to any ship and returns false if target square is empty", () => {
     Ship.mockImplementation(() => ({ hit: jest.fn() }));
     const ship = new Ship();
-    const board = new Gameboard({
+    const board = new Board({
       squares: [
         [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
         [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],

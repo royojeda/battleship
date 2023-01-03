@@ -1,4 +1,4 @@
-export default class Gameboard {
+export default class Board {
   #squares;
 
   constructor({
