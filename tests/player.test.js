@@ -39,24 +39,24 @@ describe("isDefeated()", () => {
 });
 
 describe("receiveAttack()", () => {
-  test("sends receiveAttack() to board with the given set of coordinates", () => {
-    Board.mockImplementation(() => ({ receiveAttack: jest.fn() }));
+  test("sends receiveAttack() to board with the given set of coordinates and returns whatever board returns", () => {
+    Board.mockImplementation(() => ({ receiveAttack: jest.fn(() => true) }));
     const board = new Board();
     const ships = [new Ship(), new Ship()];
     const player = new Player({ board, ships });
 
-    player.receiveAttack({ coordinates: [5, 9] });
+    expect(player.receiveAttack({ coordinates: [5, 9] })).toBe(true);
 
     expect(board.receiveAttack).toHaveBeenCalledWith({ coordinates: [5, 9] });
   });
 
-  test("sends receiveAttack() to board with another given set of coordinates", () => {
-    Board.mockImplementation(() => ({ receiveAttack: jest.fn() }));
+  test("sends receiveAttack() to board with another given set of coordinates and returns whatever board returns", () => {
+    Board.mockImplementation(() => ({ receiveAttack: jest.fn(() => 123) }));
     const board = new Board();
     const ships = [new Ship(), new Ship()];
     const player = new Player({ board, ships });
 
-    player.receiveAttack({ coordinates: [9, 0] });
+    expect(player.receiveAttack({ coordinates: [9, 0] })).toBe(123);
 
     expect(board.receiveAttack).toHaveBeenCalledWith({ coordinates: [9, 0] });
   });

@@ -22,6 +22,6 @@ export default class Player {
   }
 
   receiveAttack({ coordinates }) {
-    this.#board.receiveAttack({ coordinates });
+    return this.#board.receiveAttack({ coordinates });
   }
 }
