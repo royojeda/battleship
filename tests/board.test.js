@@ -155,15 +155,29 @@ describe("receiveShip()", () => {
 });
 
 describe("receiveAttack()", () => {
-  describe("when given already-attacked coordinates", () => {
-    test("returns 'duplicate'", () => {
-      const coordinates = [2, 2];
-      const board = new Board();
-
-      board.receiveAttack({ coordinates });
-
-      expect(board.receiveAttack({ coordinates })).toBe("duplicate");
+  test("returns false if a pair of coordinates are attacked more than once", () => {
+    const coordinates = [2, 2];
+    Ship.mockImplementation(() => ({ hit: jest.fn() }));
+    const ship = new Ship();
+    const board = new Board({
+      squares: [
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+        [ship, ship, ship, ship, ship, ship, ship, ship, ship, ship],
+      ],
     });
+    board.receiveAttack({ coordinates });
+
+    expect(board.receiveAttack({ coordinates })).toBe(false);
+
+    expect(ship.hit).toHaveBeenCalledTimes(1);
   });
   describe("when given not-yet-attacked coordinates", () => {
     test("sends hit() to the ship at the target square and returns true", () => {
@@ -174,10 +188,10 @@ describe("receiveAttack()", () => {
           [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, ship, null, null, null, null, null, null],
-          [null, null, null, ship, null, null, null, null, null, null],
-          [null, null, null, ship, null, null, null, null, null, null],
-          [null, null, null, ship, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
@@ -195,7 +209,7 @@ describe("receiveAttack()", () => {
       const board = new Board({
         squares: [
           [null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, ship, ship, null, null, null],
+          [null, null, null, null, null, null, ship, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null, null, null, null],
@@ -212,7 +226,7 @@ describe("receiveAttack()", () => {
       expect(ship.hit).toHaveBeenCalled();
     });
 
-    test("doesn't send hit() to any ship and returns false if target square is empty", () => {
+    test("doesn't send hit() to any ship if target square is empty and returns true", () => {
       Ship.mockImplementation(() => ({ hit: jest.fn() }));
       const ship = new Ship();
       const board = new Board({
@@ -230,7 +244,7 @@ describe("receiveAttack()", () => {
         ],
       });
 
-      expect(board.receiveAttack({ coordinates: [2, 7] })).toBe(false);
+      expect(board.receiveAttack({ coordinates: [2, 7] })).toBe(true);
 
       expect(ship.hit).not.toHaveBeenCalled();
     });

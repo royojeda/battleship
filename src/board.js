@@ -54,13 +54,12 @@ export default class Board {
 
   receiveAttack({ coordinates }) {
     if (this.#receivedAttacks.includes(coordinates)) {
-      return "duplicate";
-    }
-    this.#receivedAttacks.push(coordinates);
-    if (this.#squares[coordinates[0]][coordinates[1]] === null) {
       return false;
     }
-    this.#squares[coordinates[0]][coordinates[1]].hit();
+    this.#receivedAttacks.push(coordinates);
+    if (this.#squares[coordinates[0]][coordinates[1]] !== null) {
+      this.#squares[coordinates[0]][coordinates[1]].hit();
+    }
     return true;
   }
 
