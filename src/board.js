@@ -1,10 +1,14 @@
 export default class Board {
   #squares;
 
+  #receivedAttacks;
+
   constructor({
     squares = new Array(10).fill(null).map(() => new Array(10).fill(null)),
+    receivedAttacks = [],
   } = {}) {
     this.#squares = squares;
+    this.#receivedAttacks = receivedAttacks;
   }
 
   receiveShip({ ship, location, orientation }) {
@@ -49,10 +53,14 @@ export default class Board {
   }
 
   receiveAttack({ coordinates }) {
-    if (this.#squares[coordinates[0]][coordinates[1]] !== null) {
-      this.#squares[coordinates[0]][coordinates[1]].hit();
-      return true;
+    if (this.#receivedAttacks.includes(coordinates)) {
+      return "duplicate";
     }
-    return false;
+    this.#receivedAttacks.push(coordinates);
+    if (this.#squares[coordinates[0]][coordinates[1]] === null) {
+      return false;
+    }
+    this.#squares[coordinates[0]][coordinates[1]].hit();
+    return true;
   }
 }
