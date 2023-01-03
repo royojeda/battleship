@@ -7,7 +7,7 @@ export default class Board {
     this.#squares = squares;
   }
 
-  placeShip({ ship, location, orientation }) {
+  receiveShip({ ship, location, orientation }) {
     const coordinatesToOccupy = [];
     switch (orientation) {
       case "horizontal":
@@ -21,7 +21,7 @@ export default class Board {
         }
         break;
       default:
-        console.log("Invalid placeShip() orientation!");
+        console.log("Invalid receiveShip() orientation!");
     }
 
     if (

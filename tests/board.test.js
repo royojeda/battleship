@@ -3,7 +3,7 @@ import Ship from "../src/ship";
 
 jest.mock("../src/ship");
 
-describe("placeShip()", () => {
+describe("receiveShip()", () => {
   test("places a ship at the correct squares on the board horizontally", () => {
     const board = new Board();
     Ship.mockImplementation(() => ({
@@ -11,7 +11,7 @@ describe("placeShip()", () => {
     }));
     const ship = new Ship();
 
-    board.placeShip({
+    board.receiveShip({
       ship,
       location: [0, 0],
       orientation: "horizontal",
@@ -38,7 +38,7 @@ describe("placeShip()", () => {
     }));
     const ship = new Ship();
 
-    board.placeShip({
+    board.receiveShip({
       ship,
       location: [4, 7],
       orientation: "vertical",
@@ -79,7 +79,7 @@ describe("placeShip()", () => {
     }));
     const shipTwo = new Ship();
 
-    board.placeShip({
+    board.receiveShip({
       ship: shipTwo,
       location: [4, 4],
       orientation: "vertical",
@@ -106,7 +106,7 @@ describe("placeShip()", () => {
     }));
     const ship = new Ship();
 
-    board.placeShip({
+    board.receiveShip({
       ship,
       location: [6, 3],
       orientation: "horizontal",
@@ -133,7 +133,7 @@ describe("placeShip()", () => {
     }));
     const ship = new Ship();
 
-    board.placeShip({
+    board.receiveShip({
       ship,
       location: [1, 9],
       orientation: "vertical",
