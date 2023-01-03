@@ -20,4 +20,15 @@ export default class Player {
   chooseCoordinates() {
     throw new Error("Not implemented!");
   }
+
+  arrangeShips() {
+    this.#ships.forEach((ship) => {
+      const coordinates = null;
+      const orientation = null;
+      let valid;
+      do {
+        valid = this.#board.receiveShip({ ship, coordinates, orientation });
+      } while (!valid);
+    });
+  }
 }
