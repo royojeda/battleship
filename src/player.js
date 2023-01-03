@@ -20,8 +20,4 @@ export default class Player {
   chooseCoordinates() {
     throw new Error("Not implemented!");
   }
-
-  receiveAttack({ coordinates }) {
-    return this.#board.receiveAttack({ coordinates });
-  }
 }
