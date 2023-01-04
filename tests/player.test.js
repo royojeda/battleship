@@ -111,3 +111,35 @@ describe("arrangeShips()", () => {
     });
   });
 });
+
+describe("attack()", () => {
+  describe("when board returns true after the attack", () => {
+    test("sends receiveAttack() to board once", () => {
+      const player = new Player();
+      Board.mockImplementation(() => ({ receiveAttack: jest.fn(() => true) }));
+      const targetBoard = new Board();
+
+      player.attack({ board: targetBoard });
+
+      expect(targetBoard.receiveAttack).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("when board returns false after each of three attacks and true on the fourth", () => {
+    test("sends receiveAttack() to board four times", () => {
+      const player = new Player();
+      Board.mockImplementation(() => ({
+        receiveAttack: jest
+          .fn(() => true)
+          .mockReturnValueOnce(false)
+          .mockReturnValueOnce(false)
+          .mockReturnValueOnce(false),
+      }));
+      const targetBoard = new Board();
+
+      player.attack({ board: targetBoard });
+
+      expect(targetBoard.receiveAttack).toHaveBeenCalledTimes(4);
+    });
+  });
+});

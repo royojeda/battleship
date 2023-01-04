@@ -3,7 +3,7 @@ export default class Player {
 
   #ships;
 
-  constructor({ board, ships }) {
+  constructor({ board, ships } = {}) {
     this.#board = board;
     this.#ships = ships;
   }
@@ -30,5 +30,13 @@ export default class Player {
         valid = this.#board.receiveShip({ ship, coordinates, orientation });
       } while (!valid);
     });
+  }
+
+  attack({ board }) {
+    let valid;
+    do {
+      const coordinates = this.chooseCoordinates;
+      valid = board.receiveAttack({ coordinates });
+    } while (!valid);
   }
 }
