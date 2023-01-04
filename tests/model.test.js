@@ -1,7 +1,9 @@
 import Game from "../src/model";
 import Player from "../src/player";
+import Board from "../src/board";
 
 jest.mock("../src/player");
+jest.mock("../src/board");
 
 describe("isOver()", () => {
   test("returns true if only playerOne is defeated", () => {
@@ -59,5 +61,23 @@ describe("setup()", () => {
 
     expect(playerOne.arrangeShips).toHaveBeenCalled();
     expect(playerTwo.arrangeShips).toHaveBeenCalled();
+  });
+});
+
+describe("playRound()", () => {
+  test("", () => {
+    Player.mockImplementation(() => ({
+      attack: jest.fn(),
+      board: new Board(),
+    }));
+    const playerOne = new Player();
+    const playerTwo = new Player();
+    const players = [playerOne, playerTwo];
+    const game = new Game({ players });
+
+    game.playRound();
+
+    expect(playerOne.attack).toHaveBeenCalledWith({ board: playerTwo.board });
+    expect(playerTwo.attack).toHaveBeenCalledWith({ board: playerOne.board });
   });
 });
