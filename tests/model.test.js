@@ -46,3 +46,18 @@ describe("isOver()", () => {
     expect(game.isOver()).toBe(false);
   });
 });
+
+describe("setup()", () => {
+  test("sends arrangeShips() to all players", () => {
+    Player.mockImplementation(() => ({ arrangeShips: jest.fn() }));
+    const playerOne = new Player();
+    const playerTwo = new Player();
+    const players = [playerOne, playerTwo];
+    const game = new Game({ players });
+
+    game.setup();
+
+    expect(playerOne.arrangeShips).toHaveBeenCalled();
+    expect(playerTwo.arrangeShips).toHaveBeenCalled();
+  });
+});

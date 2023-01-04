@@ -8,4 +8,10 @@ export default class Game {
   isOver() {
     return this.#players.some((player) => player.isDefeated());
   }
+
+  setup() {
+    this.#players.forEach((player) => {
+      player.arrangeShips();
+    });
+  }
 }
