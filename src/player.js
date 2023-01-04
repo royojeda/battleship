@@ -23,10 +23,10 @@ export default class Player {
 
   arrangeShips() {
     this.#ships.forEach((ship) => {
-      const coordinates = null;
-      const orientation = null;
       let valid;
       do {
+        const coordinates = this.chooseCoordinates({ board: this.#board });
+        const orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
         valid = this.#board.receiveShip({ ship, coordinates, orientation });
       } while (!valid);
     });
