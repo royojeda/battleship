@@ -15,6 +15,10 @@ export default class Board {
     return this.#squares;
   }
 
+  get receivedAttacks() {
+    return this.#receivedAttacks;
+  }
+
   get rows() {
     return this.#squares[0].length;
   }
