@@ -4,18 +4,20 @@ import Ship from "../src/ship";
 jest.mock("../src/ship");
 
 describe("receiveShip()", () => {
-  test("places a ship at the correct squares on the board horizontally", () => {
+  test("places a ship at the correct squares on the board horizontally and returns true", () => {
     const board = new Board();
     Ship.mockImplementation(() => ({
       length: 2,
     }));
     const ship = new Ship();
 
-    board.receiveShip({
-      ship,
-      coordinates: [0, 0],
-      orientation: "horizontal",
-    });
+    expect(
+      board.receiveShip({
+        ship,
+        coordinates: [0, 0],
+        orientation: "horizontal",
+      })
+    ).toBe(true);
 
     expect(board.squares).toStrictEqual([
       [ship, null, null, null, null, null, null, null, null, null],
@@ -31,18 +33,20 @@ describe("receiveShip()", () => {
     ]);
   });
 
-  test("places another ship with a different length at the correct squares on the board vertically", () => {
+  test("places another ship with a different length at the correct squares on the board vertically and returns true", () => {
     const board = new Board();
     Ship.mockImplementation(() => ({
       length: 3,
     }));
     const ship = new Ship();
 
-    board.receiveShip({
-      ship,
-      coordinates: [4, 7],
-      orientation: "vertical",
-    });
+    expect(
+      board.receiveShip({
+        ship,
+        coordinates: [4, 7],
+        orientation: "vertical",
+      })
+    ).toBe(true);
 
     expect(board.squares).toStrictEqual([
       [null, null, null, null, null, null, null, null, null, null],
@@ -58,7 +62,7 @@ describe("receiveShip()", () => {
     ]);
   });
 
-  test("doesn't place a new ship if it will overlap an existing ship", () => {
+  test("doesn't place a new ship if it will overlap an existing ship and returns false", () => {
     const shipOne = new Ship();
     const board = new Board({
       squares: [
@@ -79,11 +83,13 @@ describe("receiveShip()", () => {
     }));
     const shipTwo = new Ship();
 
-    board.receiveShip({
-      ship: shipTwo,
-      coordinates: [4, 4],
-      orientation: "vertical",
-    });
+    expect(
+      board.receiveShip({
+        ship: shipTwo,
+        coordinates: [4, 4],
+        orientation: "vertical",
+      })
+    ).toBe(false);
 
     expect(board.squares).toStrictEqual([
       [null, null, null, null, null, null, null, null, null, null],
@@ -99,18 +105,20 @@ describe("receiveShip()", () => {
     ]);
   });
 
-  test("doesn't place a new ship if it will exceed the board boundaries horizontally", () => {
+  test("doesn't place a new ship if it will exceed the board boundaries horizontally and returns false", () => {
     const board = new Board();
     Ship.mockImplementation(() => ({
       length: 5,
     }));
     const ship = new Ship();
 
-    board.receiveShip({
-      ship,
-      coordinates: [6, 3],
-      orientation: "horizontal",
-    });
+    expect(
+      board.receiveShip({
+        ship,
+        coordinates: [6, 3],
+        orientation: "horizontal",
+      })
+    ).toBe(false);
 
     expect(board.squares).toStrictEqual([
       [null, null, null, null, null, null, null, null, null, null],
@@ -126,18 +134,20 @@ describe("receiveShip()", () => {
     ]);
   });
 
-  test("doesn't place a new ship if it will exceed the board boundaries vertically", () => {
+  test("doesn't place a new ship if it will exceed the board boundaries vertically and returns false", () => {
     const board = new Board();
     Ship.mockImplementation(() => ({
       length: 2,
     }));
     const ship = new Ship();
 
-    board.receiveShip({
-      ship,
-      coordinates: [1, 9],
-      orientation: "vertical",
-    });
+    expect(
+      board.receiveShip({
+        ship,
+        coordinates: [1, 9],
+        orientation: "vertical",
+      })
+    ).toBe(false);
 
     expect(board.squares).toStrictEqual([
       [null, null, null, null, null, null, null, null, null, null],

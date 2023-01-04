@@ -56,12 +56,13 @@ export default class Board {
         (coordinate) => this.#squares[coordinate[0]][coordinate[1]] != null
       )
     ) {
-      return;
+      return false;
     }
 
     coordinatesToOccupy.forEach((coordinate) => {
       this.#squares[coordinate[0]][coordinate[1]] = ship;
     });
+    return true;
   }
 
   receiveAttack({ coordinates }) {
