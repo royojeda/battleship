@@ -18,7 +18,7 @@ export default class Player {
 
   // eslint-disable-next-line class-methods-use-this
   chooseCoordinates() {
-    throw new Error("Not implemented!");
+    // throw new Error("Not implemented!");
   }
 
   arrangeShips() {
@@ -35,7 +35,7 @@ export default class Player {
   attack({ board }) {
     let valid;
     do {
-      const coordinates = this.chooseCoordinates;
+      const coordinates = this.chooseCoordinates({ board });
       valid = board.receiveAttack({ coordinates });
     } while (!valid);
   }

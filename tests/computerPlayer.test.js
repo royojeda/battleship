@@ -1,53 +1,66 @@
+import Board from "../src/board";
 import ComputerPlayer from "../src/computerPlayer";
-import Gameboard from "../src/board";
-import Ship from "../src/ship";
 
 jest.mock("../src/board");
-jest.mock("../src/ship");
 
 describe("chooseCoordinates()", () => {
-  let board;
-  let ships;
-  let possibleCoordinates;
+  test("returns coordinates within the scope of the given board", () => {
+    const player = new ComputerPlayer();
+    Board.mockImplementation(() => ({
+      rows: 5,
+      columns: 5,
+      receivedAttacks: [],
+    }));
+    const board = new Board();
 
-  beforeEach(() => {
-    board = new Gameboard();
-    ships = [new Ship(), new Ship()];
-  });
-
-  test("returns valid x and y coordinates", () => {
-    possibleCoordinates = [];
-    for (let x = 0; x <= 9; x += 1) {
-      for (let y = 0; y <= 9; y += 1) {
-        possibleCoordinates.push([x, y]);
-      }
-    }
-    const player = new ComputerPlayer({ board, ships, possibleCoordinates });
-
-    const coordinates = player.chooseCoordinates();
+    const coordinates = player.chooseCoordinates({ board });
 
     expect(coordinates).toHaveLength(2);
     coordinates.forEach((coordinate) => {
       expect(Number.isInteger(coordinate)).toBe(true);
       expect(coordinate).toBeGreaterThanOrEqual(0);
-      expect(coordinate).toBeLessThanOrEqual(9);
+      expect(coordinate).toBeLessThanOrEqual(4);
     });
   });
 
-  test("returns coordinates from a collection of possible coordinates", () => {
-    possibleCoordinates = [[1, 1]];
-    const player = new ComputerPlayer({ board, ships, possibleCoordinates });
+  test("returns only not-yet-attacked coordinates", () => {
+    const player = new ComputerPlayer();
+    Board.mockImplementation(() => ({
+      rows: 3,
+      columns: 3,
+      receivedAttacks: [
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 0],
+        [1, 1],
+        [1, 2],
+        [2, 0],
+        [2, 1],
+      ],
+    }));
+    const board = new Board();
 
-    const coordinates = player.chooseCoordinates();
+    const coordinates = player.chooseCoordinates({ board });
 
-    expect(player.possibleCoordinates).toContainEqual(coordinates);
+    expect(coordinates).toStrictEqual([2, 2]);
   });
 
-  test("returns null if there are no more remaining possible coordinates", () => {
-    possibleCoordinates = [];
-    const player = new ComputerPlayer({ board, ships, possibleCoordinates });
+  test("returns null if there are no more remaining attackable coordinates", () => {
+    const player = new ComputerPlayer();
+    Board.mockImplementation(() => ({
+      rows: 2,
+      columns: 2,
+      receivedAttacks: [
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1],
+      ],
+    }));
+    const board = new Board();
 
-    const coordinates = player.chooseCoordinates();
+    const coordinates = player.chooseCoordinates({ board });
 
     expect(coordinates).toBeNull();
   });

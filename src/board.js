@@ -11,6 +11,18 @@ export default class Board {
     this.#receivedAttacks = receivedAttacks;
   }
 
+  get squares() {
+    return this.#squares;
+  }
+
+  get rows() {
+    return this.#squares[0].length;
+  }
+
+  get columns() {
+    return this.#squares.length;
+  }
+
   receiveShip({ ship, location, orientation }) {
     const coordinatesToOccupy = [];
     switch (orientation) {
@@ -46,10 +58,6 @@ export default class Board {
     coordinatesToOccupy.forEach((coordinate) => {
       this.#squares[coordinate[0]][coordinate[1]] = ship;
     });
-  }
-
-  get squares() {
-    return this.#squares;
   }
 
   receiveAttack({ coordinates }) {
