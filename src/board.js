@@ -27,17 +27,17 @@ export default class Board {
     return this.#squares.length;
   }
 
-  receiveShip({ ship, location, orientation }) {
+  receiveShip({ ship, coordinates, orientation }) {
     const coordinatesToOccupy = [];
     switch (orientation) {
       case "horizontal":
         for (let i = 0; i < ship.length; i += 1) {
-          coordinatesToOccupy.push([location[0] + i, location[1]]);
+          coordinatesToOccupy.push([coordinates[0] + i, coordinates[1]]);
         }
         break;
       case "vertical":
         for (let i = 0; i < ship.length; i += 1) {
-          coordinatesToOccupy.push([location[0], location[1] + i]);
+          coordinatesToOccupy.push([coordinates[0], coordinates[1] + i]);
         }
         break;
       default:

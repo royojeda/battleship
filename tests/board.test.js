@@ -13,7 +13,7 @@ describe("receiveShip()", () => {
 
     board.receiveShip({
       ship,
-      location: [0, 0],
+      coordinates: [0, 0],
       orientation: "horizontal",
     });
 
@@ -40,7 +40,7 @@ describe("receiveShip()", () => {
 
     board.receiveShip({
       ship,
-      location: [4, 7],
+      coordinates: [4, 7],
       orientation: "vertical",
     });
 
@@ -81,7 +81,7 @@ describe("receiveShip()", () => {
 
     board.receiveShip({
       ship: shipTwo,
-      location: [4, 4],
+      coordinates: [4, 4],
       orientation: "vertical",
     });
 
@@ -108,7 +108,7 @@ describe("receiveShip()", () => {
 
     board.receiveShip({
       ship,
-      location: [6, 3],
+      coordinates: [6, 3],
       orientation: "horizontal",
     });
 
@@ -135,7 +135,7 @@ describe("receiveShip()", () => {
 
     board.receiveShip({
       ship,
-      location: [1, 9],
+      coordinates: [1, 9],
       orientation: "vertical",
     });
 
