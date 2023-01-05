@@ -81,3 +81,61 @@ describe("playRound()", () => {
     expect(playerTwo.attack).toHaveBeenCalledWith({ board: playerOne.board });
   });
 });
+
+describe("winner()", () => {
+  test("returns player one's name if only player two is defeated", () => {
+    Player.mockImplementation(() => ({
+      name: "playerOne",
+      isDefeated: () => false,
+    }));
+    const playerOne = new Player();
+    Player.mockImplementation(() => ({
+      name: "playerTwo",
+      isDefeated: () => true,
+    }));
+    const playerTwo = new Player();
+    const players = [playerOne, playerTwo];
+    const game = new Game({ players });
+
+    expect(game.winner()).toBe(playerOne.name);
+  });
+
+  test("returns player two's name if only player one is defeated", () => {
+    Player.mockImplementation(() => ({
+      name: "playerOne",
+      isDefeated: () => true,
+    }));
+    const playerOne = new Player();
+    Player.mockImplementation(() => ({
+      name: "playerTwo",
+      isDefeated: () => false,
+    }));
+    const playerTwo = new Player();
+    const players = [playerOne, playerTwo];
+    const game = new Game({ players });
+
+    expect(game.winner()).toBe(playerTwo.name);
+  });
+
+  test("returns 'Draw' if both players are defeated", () => {
+    Player.mockImplementation(() => ({ isDefeated: () => true }));
+    const playerOne = new Player();
+    Player.mockImplementation(() => ({ isDefeated: () => true }));
+    const playerTwo = new Player();
+    const players = [playerOne, playerTwo];
+    const game = new Game({ players });
+
+    expect(game.winner()).toBe("Draw");
+  });
+
+  test("returns null if no player is defeated", () => {
+    Player.mockImplementation(() => ({ isDefeated: () => false }));
+    const playerOne = new Player();
+    Player.mockImplementation(() => ({ isDefeated: () => false }));
+    const playerTwo = new Player();
+    const players = [playerOne, playerTwo];
+    const game = new Game({ players });
+
+    expect(game.winner()).toBeNull();
+  });
+});
