@@ -3,13 +3,20 @@ export default class Player {
 
   #ships;
 
-  constructor({ board, ships } = {}) {
+  #name;
+
+  constructor({ board, ships, name } = {}) {
     this.#board = board;
     this.#ships = ships;
+    this.#name = name;
   }
 
   get board() {
     return this.#board;
+  }
+
+  get name() {
+    return this.#name;
   }
 
   isDefeated() {
