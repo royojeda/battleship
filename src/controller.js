@@ -8,5 +8,7 @@ export default class Controller {
     this.#view = view;
   }
 
-  start() {}
+  start() {
+    this.#model.play();
+  }
 }
