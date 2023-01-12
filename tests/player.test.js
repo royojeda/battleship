@@ -143,3 +143,14 @@ describe("attack()", () => {
     });
   });
 });
+
+describe("bindHumanPlaceShips()", () => {
+  test("sets onHumanPlaceShips to the given handler", () => {
+    const player = new Player();
+    const handler = () => {};
+
+    player.bindHumanPlaceShips({ handler });
+
+    expect(player.onHumanPlaceShips).toBe(handler);
+  });
+});

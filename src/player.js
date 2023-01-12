@@ -15,6 +15,10 @@ export default class Player {
     return this.#board;
   }
 
+  get ships() {
+    return this.#ships;
+  }
+
   get name() {
     return this.#name;
   }
@@ -30,20 +34,40 @@ export default class Player {
 
   arrangeShips() {
     this.#ships.forEach((ship) => {
-      let valid;
-      do {
+      let valid = false;
+      while (!valid) {
         const coordinates = this.chooseCoordinates({ board: this.#board });
         const orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
         valid = this.#board.receiveShip({ ship, coordinates, orientation });
-      } while (!valid);
+      }
     });
   }
 
   attack({ board }) {
-    let valid;
-    do {
+    let valid = false;
+    while (!valid) {
       const coordinates = this.chooseCoordinates({ board });
       valid = board.receiveAttack({ coordinates });
-    } while (!valid);
+    }
+  }
+
+  bindHumanPlaceShips({ handler }) {
+    this.onHumanPlaceShips = handler;
+  }
+
+  bindHumanBoardChange({ handler }) {
+    this.#board.bindBoardChange({ handler });
+  }
+
+  bindHumanPlacingShip({ handler }) {
+    this.onHumanPlacingShip = handler;
+  }
+
+  bindHumanTurn({ handler }) {
+    this.onHumanTurn = handler;
+  }
+
+  bindHumanAttack({ handler }) {
+    this.onHumanAttack = handler;
   }
 }

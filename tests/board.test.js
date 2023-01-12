@@ -329,3 +329,33 @@ describe("reportAttackResult()", () => {
     });
   });
 });
+
+describe("canReceiveShipAt()", () => {
+  test("returns false if the given ship will cross the board boundaries if placed at the given coordinates with the given orientation", () => {
+    const board = new Board();
+    Ship.mockImplementation(() => ({ length: 5 }));
+    const ship = new Ship();
+    const coordinates = [8, 8];
+    const orientation = "horizontal";
+
+    expect(
+      board.canReceiveShipAt({ ship, coordinates, orientation })
+    ).toStrictEqual([]);
+  });
+
+  test("returns an array of the coordinates of the squares that the given ship will occupy if placed at the given coordinates with the given orientation", () => {
+    const board = new Board();
+    Ship.mockImplementation(() => ({ length: 3 }));
+    const ship = new Ship();
+    const coordinates = [4, 0];
+    const orientation = "horizontal";
+
+    expect(
+      board.canReceiveShipAt({ ship, coordinates, orientation })
+    ).toStrictEqual([
+      [4, 0],
+      [5, 0],
+      [6, 0],
+    ]);
+  });
+});

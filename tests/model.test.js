@@ -50,14 +50,14 @@ describe("isOver()", () => {
 });
 
 describe("setup()", () => {
-  test("sends arrangeShips() to all players", () => {
+  test("sends arrangeShips() to all players", async () => {
     Player.mockImplementation(() => ({ arrangeShips: jest.fn() }));
     const playerOne = new Player();
     const playerTwo = new Player();
     const players = [playerOne, playerTwo];
     const game = new Game({ players });
 
-    game.setup();
+    await game.setup();
 
     expect(playerOne.arrangeShips).toHaveBeenCalled();
     expect(playerTwo.arrangeShips).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe("setup()", () => {
 });
 
 describe("playRound()", () => {
-  test("", () => {
+  test("", async () => {
     Player.mockImplementation(() => ({
       attack: jest.fn(),
       board: new Board(),
@@ -75,7 +75,7 @@ describe("playRound()", () => {
     const players = [playerOne, playerTwo];
     const game = new Game({ players });
 
-    game.playRound();
+    await game.playRound();
 
     expect(playerOne.attack).toHaveBeenCalledWith({ board: playerTwo.board });
     expect(playerTwo.attack).toHaveBeenCalledWith({ board: playerOne.board });

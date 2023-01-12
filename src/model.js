@@ -1,7 +1,37 @@
+import HumanPlayer from "./humanPlayer";
+import ComputerPlayer from "./computerPlayer";
+import Board from "./board";
+import Ship from "./ship";
+
 export default class Game {
   #players;
 
-  constructor({ players } = {}) {
+  constructor({
+    players = [
+      new HumanPlayer({
+        name: "Human",
+        board: new Board(),
+        ships: [
+          new Ship({ length: 5 }),
+          new Ship({ length: 4 }),
+          new Ship({ length: 3 }),
+          new Ship({ length: 3 }),
+          new Ship({ length: 2 }),
+        ],
+      }),
+      new ComputerPlayer({
+        name: "Computer",
+        board: new Board(),
+        ships: [
+          new Ship({ length: 5 }),
+          new Ship({ length: 4 }),
+          new Ship({ length: 3 }),
+          new Ship({ length: 3 }),
+          new Ship({ length: 2 }),
+        ],
+      }),
+    ],
+  } = {}) {
     this.#players = players;
   }
 
@@ -9,34 +39,35 @@ export default class Game {
     return this.#players.some((player) => player.isDefeated());
   }
 
-  setup() {
-    this.#players.forEach((player) => {
-      player.arrangeShips();
-    });
+  async setup() {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const player of this.#players) {
+      // eslint-disable-next-line no-await-in-loop
+      await player.arrangeShips();
+    }
   }
 
-  playRound() {
-    this.#players.forEach((player, index) => {
+  async playRound() {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [index, player] of this.#players.entries()) {
       let targetPlayerIndex;
       if (index + 1 === this.#players.length) {
         targetPlayerIndex = 0;
       } else {
         targetPlayerIndex = index + 1;
       }
-      player.attack({ board: this.#players[targetPlayerIndex].board });
-    });
+      // eslint-disable-next-line no-await-in-loop
+      await player.attack({ board: this.#players[targetPlayerIndex].board });
+    }
   }
 
-  play() {
-    this.setup();
+  async play() {
+    await this.setup();
     while (!this.isOver()) {
-      this.playRound();
+      // eslint-disable-next-line no-await-in-loop
+      await this.playRound();
     }
-    console.table(this.#players[0].board.squares);
-    console.table(this.#players[0].board.receivedAttacks);
-    console.table(this.#players[1].board.squares);
-    console.table(this.#players[1].board.receivedAttacks);
-    console.log(this.winner());
+    this.onGameEnd({ winner: this.winner() });
   }
 
   winner() {
@@ -50,5 +81,47 @@ export default class Game {
       return this.#players[0].name;
     }
     return null;
+  }
+
+  bindHumanPlaceShips({ handler }) {
+    this.#players.forEach((player) => {
+      player.bindHumanPlaceShips({ handler });
+    });
+  }
+
+  bindHumanBoardChange({ handler }) {
+    this.#players.forEach((player) => {
+      if (player.constructor.name === "HumanPlayer") {
+        player.bindHumanBoardChange({ handler });
+      }
+    });
+  }
+
+  bindHumanPlacingShip({ handler }) {
+    this.#players.forEach((player) => {
+      if (player.constructor.name === "HumanPlayer") {
+        player.bindHumanPlacingShip({ handler });
+      }
+    });
+  }
+
+  bindHumanTurn({ handler }) {
+    this.#players.forEach((player) => {
+      if (player.constructor.name === "HumanPlayer") {
+        player.bindHumanTurn({ handler });
+      }
+    });
+  }
+
+  bindHumanAttack({ handler }) {
+    this.#players.forEach((player) => {
+      if (player.constructor.name === "HumanPlayer") {
+        player.bindHumanAttack({ handler });
+      }
+    });
+  }
+
+  bindGameEnd({ handler }) {
+    this.onGameEnd = handler;
   }
 }
