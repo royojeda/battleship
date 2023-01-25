@@ -30,8 +30,8 @@ export default class View {
   setup() {
     this.#root.innerHTML = /* html */ `
         <div class="flex boards justify-center relative w-[80%] p-4 gap-10">
-          <div class="ownBoard border border-gray-500 w-full max-w-screen-sm grid grid-cols-10 gap-"></div>
-          <div class="rotate absolute -bottom-4 text-gray-400 italic">Press "R" to rotate the ship before placing it on the board.</div>
+          <div class="ownBoard border-gray-500 w-full max-w-screen-sm grid grid-cols-10 gap-0.5"></div>
+          <div class="rotate absolute -bottom-4 text-gray-500 italic">Press "R" to rotate each ship's orientation before placing it on the board.</div>
         </div>
     `;
   }
@@ -203,7 +203,7 @@ export default class View {
     } else {
       const element = document.createElement("div");
       element.className =
-        "enemyBoard relative border border-gray-500 w-full max-w-screen-sm grid grid-cols-10";
+        "enemyBoard relative gap-0.5 border-gray-500 w-full max-w-screen-sm grid grid-cols-10";
       document.querySelector(".boards").append(element);
     }
 
@@ -222,7 +222,7 @@ export default class View {
   bindHumanAttack({ enemyBoard }) {
     const element = document.createElement("div");
     element.className =
-      "absolute -bottom-10 left-0 right-0 text-center text-gray-400 italic";
+      "absolute -bottom-8 left-0 right-0 text-center text-gray-500 italic";
     element.textContent = "Place your attacks on the enemy board.";
     document.querySelector(".enemyBoard").append(element);
     return new Promise((resolve) => {
